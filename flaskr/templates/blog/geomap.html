@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+<!-- Block for title element -->
+{% block title %}
+ <h2> Dengue Map </h2>
+ {% endblock %}
+
+<!-- Block for holding generated Folium map -->
+{% block denguemap %}
+{{geomap}}
+    {% include "map.html" %}
+    {% include "css.html" %}
+{% endblock %}

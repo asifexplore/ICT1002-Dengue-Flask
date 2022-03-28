@@ -1,0 +1,109 @@
+{% extends 'base.html' %}
+<!-- Block for Title header -->
+{% block title %}
+<h2>Dengue Watch</h2>
+{% endblock %}
+
+<!-- Block for return of Largest cluster from our own json files. -->
+{% block denguecluster %}
+<small class="mb-1 text-muted">Largest Active Region</small>
+<h5 class="mr-2 mb-0"> {{ listcompare}} </h5>
+{% endblock %}
+
+<!-- Block for return Smallest Cluster. -->
+{% block neadatasmall %}
+<small class="mb-1 text-muted">Smallest Active Cluster (NEA data)
+</small>
+<h5 class="mr-2 mb-0">{{neadatasmall}}</h5>
+{% endblock %}
+
+<!-- Block for return Largest Cluster. -->
+{% block neadatabig %}
+<small class="mb-1 text-muted"> Largest Active Cluster (NEA data)
+</small>
+<h5 class="mr-2 mb-0">{{ neadatabig}}</h5>
+{% endblock %}
+
+<!-- Block for chartjs Graph with Dengue and Rainfall. -->
+{% block graphplot %}
+<p class="card-title">Average Dengue & Rainfall</p>
+<p class="mb-4">Average Dengue Cases and Rainfall over 6 years</p>
+<p class="text-muted">Higher average rainfall will lead higher average dengue cases
+</p>
+<div id="cash-deposits-chart-legend" class="d-flex justify-content-center pt-3">
+</div>
+<canvas id="myChart" width="400" height="400"></canvas>
+<script>
+    var ctx = document.getElementById('myChart').getContext('2d');
+    var chart = new Chart(ctx, {
+        type: 'line',
+
+        data: {
+            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+            datasets: [{
+                label: 'Average Dengue Cases',
+                backgroundColor: 'rgb(255, 99, 132)',
+                borderColor: 'rgb(255, 99, 132)',
+                fill: false,
+                data: {{ denguecases }}
+    },
+        {
+
+            label: 'Average Rainfall(mm)',
+            backgroundColor: 'rgb(0, 255, 255)',
+            borderColor: 'rgb(0, 255, 255)',
+            fill: false,
+            data: {{ rainfalltotal }}
+         }
+        ]
+    },
+
+    // Configuration options go here
+    options: {
+        legend: {
+            display: true,
+                position: 'right'
+        }
+
+    }
+});
+</script>
+</div>
+{% endblock %}
+
+<!-- Block for Linear Regression Graph with Dengue and Rainfall. -->
+{% block graphlinearreg %}
+{{ linearreg }}
+<img src="{{url_for('static', filename='images/Linear_Regression_DvR.svg')}}" style="padding-top: 5%;" width="100%"
+    viewBox="0 0 20 10" />
+<!-- <div> Linear regression chart description: <br />
+    This chart shows the inverse relationship between rainfall amount and dengue cases. However, the data from the
+    linear regression is predicted solely through the use of rainfall data and will not be accurate as they are many
+    other factors that are not being factored in. </div> -->
+<div>
+    Linear Regression Analysis <br/> 
+    Correlation : - 1.66 <br />
+    Mean Square Error : 488849.51 <br />
+    R-Squared : 0.04 <br />
+    This chart shows the inverse relationship between rainfall amount and dengue cases. However, the data from the
+    linear regression is predicted solely through the use of rainfall data and will not be accurate as they are many
+    other factors that are not being factored in.
+</div>
+{% endblock %}
+
+<!-- Block for Table data -->
+{% block neadata %}
+<!-- Did not have time to finish this. -->
+<!-- <div class="row">
+    <div class="col-md-12 stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <p class="card-title">Table Information</p>
+                <div class="table-responsive">
+                     Table element here
+                </div>
+            </div>
+        </div>
+    </div>
+</div> -->
+{% endblock %}
